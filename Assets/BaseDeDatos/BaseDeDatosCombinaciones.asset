@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273d32abb3bdbf2209f02f41dfb4447b, type: 3}
+  m_Name: BaseDeDatosCombinaciones
+  m_EditorClassIdentifier: Assembly-CSharp::BaseDeDatosCombinaciones
+  recetas:
+  - idTorre1: canon
+    idTorre2: elec
+    prefabResultado: {fileID: 8506312361251007929, guid: fbc646c341be8aadc81bbb23e57e3aae, type: 3}
