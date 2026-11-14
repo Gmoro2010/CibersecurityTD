@@ -13,6 +13,8 @@ public class Turret : MonoBehaviour
     [Tooltip("Arrastra aquí uno o más objetos hijos de la torreta que indiquen las puntas de los cañones")]
     public Transform[] firePoints;        
     public float fireRate = 1f;        
+    [Tooltip("Orienta cada FirePoint hacia el objetivo usando su eje X de disparo")]
+    public bool apuntarFirePointsAlObjetivo = false;
 
     [Header("Ajustes de Rotación")]
     private Transform target;
@@ -38,6 +40,11 @@ public class Turret : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, 0, angle + desface);
 
+        if (apuntarFirePointsAlObjetivo)
+        {
+            ApuntarFirePoints();
+        }
+
         if (fireCountdown <= 0f)
         {
             Shoot();
@@ -45,6 +52,24 @@ public class Turret : MonoBehaviour
         }
 
         fireCountdown -= Time.deltaTime;
+    }
+
+    void ApuntarFirePoints()
+    {
+        if (firePoints == null) return;
+
+        foreach (Transform fp in firePoints)
+        {
+            if (fp == null) continue;
+
+            // Usar la posición de cada boca para que los disparos converjan en el enemigo.
+            Vector2 direction = target.position - fp.position;
+            if (direction.sqrMagnitude > 0f)
+            {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                fp.rotation = Quaternion.Euler(0f, 0f, angle);
+            }
+        }
     }
 
     void Shoot()

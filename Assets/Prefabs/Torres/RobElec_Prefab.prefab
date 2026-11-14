@@ -117,6 +117,7 @@ MonoBehaviour:
   - {fileID: 4671143054372829253}
   - {fileID: 7210044771972627784}
   fireRate: 1
+  apuntarFirePointsAlObjetivo: 1
 --- !u!114 &-4655325669517270229
 MonoBehaviour:
   m_ObjectHideFlags: 0
