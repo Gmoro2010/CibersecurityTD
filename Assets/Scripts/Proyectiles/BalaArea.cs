@@ -1,22 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BalaArea : MonoBehaviour
 {
     [Header("Ajustes de Movimiento")]
     [SerializeField] private float velocidad = 10f;
-    [SerializeField] private float tiempoDeVidaMaximo = 5f; 
+    [SerializeField] private float tiempoDeVidaMaximo = 5f;
 
     [Header("Ajustes de Daño en Área (AoE)")]
-    [SerializeField] private float radioExplosion = 3.5f; 
-    [SerializeField] private float danoDeAtaque = 25f;     
+    [SerializeField] private float radioExplosion = 3.5f;
+    [SerializeField] private float danoDeAtaque = 25f;
     [SerializeField] private string tagEnemigo = "Enemigo";
 
-    private bool haExplotado = false;
+    private bool haExplotado;
     private Vector3 posicionTorre;
     private float rangoMaximo = Mathf.Infinity;
-    private bool tieneRestriccionDeRango = false;
+    private bool tieneRestriccionDeRango;
 
-    // Método que llama la torre al disparar para asignarle los límites
     public void ConfigurarRango(Vector3 origenTorre, float rangoTorre)
     {
         posicionTorre = origenTorre;
@@ -24,61 +24,68 @@ public class BalaArea : MonoBehaviour
         tieneRestriccionDeRango = true;
     }
 
-    void Start()
+    private void Start()
     {
-        // Destruir la bala automáticamente si pasa demasiado tiempo sin impactar
         Destroy(gameObject, tiempoDeVidaMaximo);
     }
 
-    void Update()
+    private void Update()
     {
         if (haExplotado) return;
 
-        // Moverse constantemente hacia adelante según la rotación de su FirePoint
         transform.Translate(Vector3.right * velocidad * Time.deltaTime);
 
-        // Comprobar si la bala ha superado el rango máximo desde la torre
-        if (tieneRestriccionDeRango)
+        if (tieneRestriccionDeRango && Vector3.Distance(transform.position, posicionTorre) > rangoMaximo)
         {
-            float distanciaALaTorre = Vector3.Distance(transform.position, posicionTorre);
-            if (distanciaALaTorre > rangoMaximo)
-            {
-                Destroy(gameObject); // Desaparece sin explotar al rebasar el rango
-            }
+            Destroy(gameObject);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Si choca con un enemigo, detona la nube tóxica
-        if (other.CompareTag(tagEnemigo) && !haExplotado)
-        {
-            Explotar();
-        }
+        if (haExplotado) return;
+
+        VidaObj enemigoImpactado = BuscarEnemigo(other);
+        if (enemigoImpactado == null) return;
+
+        Explotar(other.ClosestPoint(transform.position), enemigoImpactado);
     }
 
-    void Explotar()
+    private VidaObj BuscarEnemigo(Collider2D collider)
+    {
+        VidaObj vida = collider.GetComponentInParent<VidaObj>();
+        if (vida != null && (vida.CompareTag(tagEnemigo) || collider.CompareTag(tagEnemigo)))
+        {
+            return vida;
+        }
+
+        return null;
+    }
+
+    private void Explotar(Vector2 puntoImpacto, VidaObj enemigoImpactado)
     {
         haExplotado = true;
 
-        // Detectar todos los colliders dentro del radio de la nube tóxica en la posición actual
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radioExplosion);
+        // Incluir todas las capas y los triggers, porque los enemigos usan Ignore Raycast.
+        var filtro = new ContactFilter2D { useTriggers = true };
+        var colliders = new List<Collider2D>();
+        Physics2D.OverlapCircle(puntoImpacto, radioExplosion, filtro, colliders);
 
-        foreach (Collider2D col in colliders)
+        var enemigos = new HashSet<VidaObj> { enemigoImpactado };
+        foreach (Collider2D collider in colliders)
         {
-            if (col.CompareTag(tagEnemigo))
+            VidaObj enemigo = BuscarEnemigo(collider);
+            if (enemigo != null)
             {
-                VidaObj sistemaVidaEnemigo = col.GetComponent<VidaObj>();
-
-                if (sistemaVidaEnemigo != null)
-                {
-                    sistemaVidaEnemigo.RecibirDano(danoDeAtaque);
-                    Debug.Log($"¡Nube tóxica dañó a {col.gameObject.name} por {danoDeAtaque} de daño!");
-                }
+                enemigos.Add(enemigo);
             }
         }
 
-        // Destruir el proyectil al explotar
+        foreach (VidaObj enemigo in enemigos)
+        {
+            enemigo.RecibirDano(danoDeAtaque);
+        }
+
         Destroy(gameObject);
     }
 

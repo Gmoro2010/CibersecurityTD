@@ -171,10 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Turret
   targetTag: Enemigo
-  range: 0.5
+  range: 0.9
   updateRate: 0.2
   desface: 90
-  bulletPrefab: {fileID: 6339970153342301681, guid: a612bed1328dbc3b09669c5528fffb3f, type: 3}
+  bulletPrefab: {fileID: 6339970153342301681, guid: 553fc3d74d904d02899275073fd54852, type: 3}
   firePoints:
   - {fileID: 388841893377775506}
   - {fileID: 2605420426444307714}

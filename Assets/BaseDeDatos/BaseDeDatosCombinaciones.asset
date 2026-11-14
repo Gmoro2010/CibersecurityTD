@@ -16,3 +16,6 @@ MonoBehaviour:
   - idTorre1: canon
     idTorre2: elec
     prefabResultado: {fileID: 8506312361251007929, guid: fbc646c341be8aadc81bbb23e57e3aae, type: 3}
+  - idTorre1: canon
+    idTorre2: tox
+    prefabResultado: {fileID: 1307659322885093111, guid: 980de993035843d7a72da645e403163b, type: 3}
