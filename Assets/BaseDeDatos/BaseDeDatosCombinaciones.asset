@@ -19,3 +19,15 @@ MonoBehaviour:
   - idTorre1: canon
     idTorre2: tox
     prefabResultado: {fileID: 1307659322885093111, guid: 980de993035843d7a72da645e403163b, type: 3}
+  - idTorre1: canon
+    idTorre2: Lfuego
+    prefabResultado: {fileID: 1307659322885093111, guid: 11c22ad2cd444f6ba39180eed6ef42e8, type: 3}
+  - idTorre1: elec
+    idTorre2: Lfuego
+    prefabResultado: {fileID: 1875247470744285626, guid: 84b4539f8fa24293aaacaddc2946c35b, type: 3}
+  - idTorre1: Lfuego
+    idTorre2: tox
+    prefabResultado: {fileID: 1307659322885093111, guid: f823921b75e94d23a274c91c6c41f30e, type: 3}
+  - idTorre1: elec
+    idTorre2: tox
+    prefabResultado: {fileID: 1875247470744285626, guid: 82e5c07563734ddda63950f2c0d32274, type: 3}
