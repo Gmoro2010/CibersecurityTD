@@ -16,6 +16,8 @@ public sealed class HudMapa : MonoBehaviour
     [SerializeField] private OleadaManip oleadas;
     [SerializeField] private CifrasPixel saldo;
     [SerializeField] private CifrasPixel contador;
+    [SerializeField] private NucleoVida nucleo;
+    [SerializeField] private CifrasPixel contadorVida;
     [SerializeField] private Button empezar;
     [SerializeField] private TorreItem[] torres;
     [SerializeField] private CifrasPixel[] precios;
@@ -23,6 +25,7 @@ public sealed class HudMapa : MonoBehaviour
     private Vector2Int resolucion;
     private int? ultimoSaldo;
     private Vector2Int ultimasOleadas = new Vector2Int(-1, -1);
+    private Vector2Int ultimaVida = new Vector2Int(-1, -1);
 
     private void Start()
     {
@@ -55,6 +58,18 @@ public sealed class HudMapa : MonoBehaviour
         {
             ultimasOleadas = cuenta;
             contador.Mostrar(FormattableString.Invariant($"{cuenta.x}/{cuenta.y}"));
+        }
+
+        if (nucleo != null && contadorVida != null)
+        {
+            var vida = new Vector2Int(
+                Mathf.CeilToInt(nucleo.VidaActual),
+                Mathf.CeilToInt(nucleo.VidaMaxima));
+            if (vida != ultimaVida)
+            {
+                ultimaVida = vida;
+                contadorVida.Mostrar(FormattableString.Invariant($"{vida.x}/{vida.y}"));
+            }
         }
 
         empezar.interactable = oleadas.PuedeEmpezarOleada;

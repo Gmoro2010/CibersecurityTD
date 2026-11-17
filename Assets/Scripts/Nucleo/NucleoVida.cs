@@ -7,7 +7,10 @@ public class NucleoVida : MonoBehaviour
     [SerializeField] private Slider barraVidaNucleo;       
     private float vidaActualNucleo;
 
-    void Start()
+    public float VidaActual => vidaActualNucleo;
+    public float VidaMaxima => vidaMaximaNucleo;
+
+    private void Awake()
     {
         vidaActualNucleo = vidaMaximaNucleo;
         if (barraVidaNucleo != null)
@@ -19,7 +22,7 @@ public class NucleoVida : MonoBehaviour
 
     public void DanarNucleo(float cantidad)
     {
-        vidaActualNucleo -= cantidad;
+        vidaActualNucleo = Mathf.Clamp(vidaActualNucleo - cantidad, 0f, vidaMaximaNucleo);
         Debug.Log("¡El núcleo Pfinal recibió daño! Vidas restantes: " + vidaActualNucleo);
 
         if (barraVidaNucleo != null)
