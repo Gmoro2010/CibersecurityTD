@@ -22,8 +22,14 @@ public class OleadaManip : MonoBehaviour
     public List<OleadaData> levelWaves;
 
     private int currentWaveIndex = 0;
-    private int activeEnemiesCount = 0;
+    private readonly HashSet<GameObject> activeEnemies = new HashSet<GameObject>();
     private bool isSpawning = false;
+    private bool allWavesCompleted;
+
+    public int OleadaActual => currentWaveIndex;
+    public int TotalOleadas => levelWaves?.Count ?? 0;
+    public bool PuedeEmpezarOleada =>
+        Time.timeScale > 0f && !isSpawning && activeEnemies.Count == 0 && currentWaveIndex < TotalOleadas;
 
     // Suscríbete a estos eventos desde tu interfaz (UI) si lo necesitas
     public System.Action<string> OnWaveChanged;
@@ -41,17 +47,11 @@ public class OleadaManip : MonoBehaviour
 
     public void StartNextWave()
     {
-        if (isSpawning || activeEnemiesCount > 0) return; // No iniciar si ya hay una activa o enemigos vivos
+        if (!PuedeEmpezarOleada) return;
 
-        if (currentWaveIndex < levelWaves.Count)
-        {
-            StartCoroutine(SpawnWaveRoutine(levelWaves[currentWaveIndex]));
-        }
-        else
-        {
-            Debug.Log("¡Felicidades! Has defendido todas las oleadas.");
-            OnAllWavesCompleted?.Invoke();
-        }
+        OleadaData wave = levelWaves[currentWaveIndex];
+        currentWaveIndex++;
+        StartCoroutine(SpawnWaveRoutine(wave));
     }
 
     private IEnumerator SpawnWaveRoutine(OleadaData wave)
@@ -85,7 +85,7 @@ public class OleadaManip : MonoBehaviour
             for (int i = 0; i < group.count; i++)
             {
                 GameObject enemy = Instantiate(group.enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-                activeEnemiesCount++;
+                activeEnemies.Add(enemy);
 
                 // PASAR EL CAMINO AL ENEMIGO: Le inyectamos la ruta asignada de forma automática
                 if (enemy.TryGetComponent<SeguirCamino>(out var scriptMovimiento))
@@ -102,18 +102,23 @@ public class OleadaManip : MonoBehaviour
         }
 
         isSpawning = false;
-        currentWaveIndex++;
+        ComprobarFinDeOleadas();
     }
 
-    // Llama a esta función desde el script de tus enemigos cuando mueran o lleguen a la base
-    public void RegisterEnemyDeath()
+    public void RegisterEnemyDeath(GameObject enemy)
     {
-        activeEnemiesCount--;
+        if (activeEnemies.Remove(enemy))
+            ComprobarFinDeOleadas();
+    }
 
-        if (activeEnemiesCount <= 0 && !isSpawning)
-        {
-            Debug.Log("Oleada limpia. Listo para la siguiente.");
-            // Aquí puedes habilitar el botón de "Siguiente Oleada" en tu UI si tienes uno
-        }
+    private void ComprobarFinDeOleadas()
+    {
+        if (allWavesCompleted || Time.timeScale == 0f || isSpawning ||
+            activeEnemies.Count > 0 || currentWaveIndex < TotalOleadas)
+            return;
+
+        allWavesCompleted = true;
+        Debug.Log("¡Felicidades! Has defendido todas las oleadas.");
+        OnAllWavesCompleted?.Invoke();
     }
 }

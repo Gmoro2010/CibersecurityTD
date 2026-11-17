@@ -45,7 +45,7 @@ public class SeguirCamino : MonoBehaviour
                     nucleo.DanarNucleo(dano); 
                 }
 
-                FindAnyObjectByType<OleadaManip>()?.RegisterEnemyDeath();
+                FindAnyObjectByType<OleadaManip>()?.RegisterEnemyDeath(gameObject);
 
                 Destroy(gameObject); 
             }

@@ -17,6 +17,7 @@ public class VidaObj : MonoBehaviour
 
     private float vidaActual;
     private OleadaManip waveManager;
+    private bool muerto;
 
     public float VidaActual => vidaActual;
     public float VidaMaxima => vidaMaxima;
@@ -48,6 +49,8 @@ public class VidaObj : MonoBehaviour
 
     public void RecibirDano(float cantidad)
     {
+        if (muerto) return;
+
         vidaActual = Mathf.Clamp(vidaActual - cantidad, 0, vidaMaxima);
         
         Debug.Log(gameObject.name + " tiene " + vidaActual + " de vida restante.");
@@ -79,9 +82,10 @@ public class VidaObj : MonoBehaviour
 
     private void Morir()
     {
+        muerto = true;
         if (waveManager != null)
         {
-            waveManager.RegisterEnemyDeath();
+            waveManager.RegisterEnemyDeath(gameObject);
         }
 
         // Recompensa al jugador por eliminar al enemigo

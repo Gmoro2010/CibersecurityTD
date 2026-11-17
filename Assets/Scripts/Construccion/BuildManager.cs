@@ -9,6 +9,7 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private int dineroInicial = 200;
     private int dineroActual;
     [SerializeField] private TextMeshProUGUI textoDineroUI;
+    public int DineroActual => dineroActual;
 
     [Header("Referencias de Combinación")]
     [SerializeField] private BaseDeDatosCombinaciones baseDeDatosCombinaciones;
