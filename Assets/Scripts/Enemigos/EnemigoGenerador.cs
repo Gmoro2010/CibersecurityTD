@@ -28,16 +28,18 @@ public class EnemigoGenerador : MonoBehaviour
 
     void GenerarEnemigo()
     {
-        if (prefabEnemigoHijo == null) return;
+        if (prefabEnemigoHijo == null || miSeguirCamino == null ||
+            miSeguirCamino.PuntosDelCamino == null) return;
 
         // Instanciamos al enemigo hijo exactamente en la posición actual del jefe
         GameObject nuevoHijo = Instantiate(prefabEnemigoHijo, transform.position, Quaternion.identity);
 
         SeguirCamino scriptCaminoHijo = nuevoHijo.GetComponent<SeguirCamino>();
         
-        if (scriptCaminoHijo != null && miSeguirCamino != null && miSeguirCamino.PuntosDelCamino != null)
+        if (scriptCaminoHijo != null)
         {
-            scriptCaminoHijo.SetCamino(miSeguirCamino.PuntosDelCamino, miSeguirCamino.IndiceSiguientePunto);
+            scriptCaminoHijo.SetCamino(miSeguirCamino.PuntosDelCamino,
+                miSeguirCamino.IndiceSiguientePunto, miSeguirCamino.Oleada);
         }
     }
 }

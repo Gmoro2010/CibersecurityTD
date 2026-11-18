@@ -6,7 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu principal.unity
+    guid: 2f822c784759310ffa0b23633cd31d71
+  - enabled: 1
     path: Assets/Scenes/Mapa1.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Mapa2.unity
+    guid: 2db7cefb088c1644ca477f55286b33bb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

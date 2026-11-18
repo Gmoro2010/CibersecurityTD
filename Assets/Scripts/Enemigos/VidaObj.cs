@@ -16,7 +16,6 @@ public class VidaObj : MonoBehaviour
     private Color colorOriginal;
 
     private float vidaActual;
-    private OleadaManip waveManager;
     private bool muerto;
 
     public float VidaActual => vidaActual;
@@ -36,9 +35,6 @@ public class VidaObj : MonoBehaviour
         {
             colorOriginal = spriteRenderer.color; // Guardamos el color original del sprite
         }
-
-        // Buscamos automáticamente el WaveManager en la escena al aparecer
-        waveManager = FindAnyObjectByType<OleadaManip>(); 
 
         if (barraDeVida != null)
         {
@@ -83,17 +79,15 @@ public class VidaObj : MonoBehaviour
     private void Morir()
     {
         muerto = true;
-        if (waveManager != null)
-        {
-            waveManager.RegisterEnemyDeath(gameObject);
-        }
-
         // Recompensa al jugador por eliminar al enemigo
         if (BuildManager.Instance != null)
         {
             BuildManager.Instance.GanarDinero(recompensaDinero);
         }
 
-        Destroy(gameObject);
+        if (TryGetComponent<SeguirCamino>(out var camino))
+            camino.Retirar();
+        else
+            Destroy(gameObject);
     }
 }

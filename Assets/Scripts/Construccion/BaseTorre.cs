@@ -15,7 +15,7 @@ public class BaseTorre : MonoBehaviour
     private void OnMouseOver()
     {
         // Verificamos que el ratón esté disponible en el nuevo Input System
-        if (Mouse.current == null) return;
+        if (Time.timeScale == 0f || Mouse.current == null) return;
 
         // Clic Izquierdo (Nuevo Input System): Construir o Combinar
         if (Mouse.current.leftButton.wasPressedThisFrame)

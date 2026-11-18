@@ -2,53 +2,50 @@ using UnityEngine;
 
 public class SeguirCamino : MonoBehaviour
 {
-    [Header("Configuración del Camino")]
-    private Transform[] puntosDelCamino; 
     public float velocidad = 3f;
     public float dano = 25f;
-    
-    private int indiceSiguientePunto = 0; 
-    private float distanciaMargen = 0.01f;
+
+    private Transform[] puntosDelCamino;
+    private int indiceSiguientePunto;
+    private bool eliminado;
 
     public Transform[] PuntosDelCamino => puntosDelCamino;
     public int IndiceSiguientePunto => indiceSiguientePunto;
-    
-    public void SetCamino(Transform[] nuevoCamino, int indiceInicial = 0)
+    public OleadaManip Oleada { get; private set; }
+
+    public void SetCamino(Transform[] nuevoCamino, int indiceInicial = 0, OleadaManip oleada = null)
     {
         puntosDelCamino = nuevoCamino;
-        indiceSiguientePunto = Mathf.Clamp(indiceInicial, 0, puntosDelCamino.Length - 1); 
+        indiceSiguientePunto = Mathf.Clamp(indiceInicial, 0, puntosDelCamino.Length - 1);
+        Oleada = oleada;
+        Oleada?.RegisterEnemy(gameObject);
     }
 
-    void Update()
+    private void Update()
     {
-        if (puntosDelCamino == null || puntosDelCamino.Length == 0) return;
+        if (eliminado || Time.timeScale == 0f || puntosDelCamino == null || puntosDelCamino.Length == 0)
+            return;
 
         Transform puntoObjetivo = puntosDelCamino[indiceSiguientePunto];
-
         transform.position = Vector2.MoveTowards(
-            transform.position, 
-            puntoObjetivo.position, 
-            velocidad * Time.deltaTime
-        );
+            transform.position, puntoObjetivo.position, velocidad * Time.deltaTime);
+        if (Vector2.Distance(transform.position, puntoObjetivo.position) >= 0.01f) return;
 
-        if (Vector2.Distance(transform.position, puntoObjetivo.position) < distanciaMargen)
-        {
-            indiceSiguientePunto++;
+        indiceSiguientePunto++;
+        if (indiceSiguientePunto < puntosDelCamino.Length) return;
 
-            if (indiceSiguientePunto >= puntosDelCamino.Length)
-            {
-                Transform ultimoPunto = puntosDelCamino[puntosDelCamino.Length - 1];
-                NucleoVida nucleo = ultimoPunto.GetComponent<NucleoVida>();
+        if (puntoObjetivo.TryGetComponent<NucleoVida>(out var nucleo))
+            nucleo.DanarNucleo(dano);
 
-                if (nucleo != null)
-                {
-                    nucleo.DanarNucleo(dano); 
-                }
+        Retirar();
+    }
 
-                FindAnyObjectByType<OleadaManip>()?.RegisterEnemyDeath(gameObject);
-
-                Destroy(gameObject); 
-            }
-        }
+    public void Retirar()
+    {
+        if (eliminado) return;
+        eliminado = true;
+        gameObject.SetActive(false);
+        Oleada?.RegisterEnemyDeath(gameObject);
+        Destroy(gameObject);
     }
 }

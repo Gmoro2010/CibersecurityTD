@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5552320685114254270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1970023816196662294, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: intervaloGeneracion
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3044849486439328924, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: dano
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720417860212238662, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Name
+      value: JefeConfluencia_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8404793996444326248, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: vidaMaxima
+      value: 9000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8404793996444326248, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: recompensaDinero
+      value: 150
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}

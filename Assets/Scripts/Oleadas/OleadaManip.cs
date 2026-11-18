@@ -25,11 +25,13 @@ public class OleadaManip : MonoBehaviour
     private readonly HashSet<GameObject> activeEnemies = new HashSet<GameObject>();
     private bool isSpawning = false;
     private bool allWavesCompleted;
+    private bool partidaTerminada;
 
     public int OleadaActual => currentWaveIndex;
     public int TotalOleadas => levelWaves?.Count ?? 0;
     public bool PuedeEmpezarOleada =>
-        Time.timeScale > 0f && !isSpawning && activeEnemies.Count == 0 && currentWaveIndex < TotalOleadas;
+        !partidaTerminada && Time.timeScale > 0f && !isSpawning &&
+        activeEnemies.Count == 0 && currentWaveIndex < TotalOleadas;
 
     // Suscríbete a estos eventos desde tu interfaz (UI) si lo necesitas
     public System.Action<string> OnWaveChanged;
@@ -37,12 +39,11 @@ public class OleadaManip : MonoBehaviour
 
     void Update()
     {
-        // Esta es la forma correcta de detectar la Barra Espaciadora en el nuevo Input System
-        if (UnityEngine.InputSystem.Keyboard.current != null && 
-            UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
+        if (!PuedeEmpezarOleada) return;
+
+        var teclado = UnityEngine.InputSystem.Keyboard.current;
+        if (teclado != null && teclado.spaceKey.wasPressedThisFrame)
             StartNextWave();
-        }
     }
 
     public void StartNextWave()
@@ -68,33 +69,37 @@ public class OleadaManip : MonoBehaviour
                 yield return new WaitForSeconds(group.delayBeforeStart);
             }
 
-            // Validar que el índice de camino configurado en el Scriptable Object exista
+            if (caminosDelNivel == null || caminosDelNivel.Length == 0 || group.enemyPrefab == null)
+            {
+                Debug.LogError("Falta configurar una ruta o el prefab del enemigo.");
+                continue;
+            }
+
             int caminoIndex = Mathf.Clamp(group.spawnPointIndex, 0, caminosDelNivel.Length - 1);
-            
-            // Si el camino no tiene puntos configurados, saltamos el grupo para evitar errores
-            if (caminosDelNivel[caminoIndex].puntos == null || caminosDelNivel[caminoIndex].puntos.Length == 0)
+            Transform[] puntos = caminosDelNivel[caminoIndex].puntos;
+            if (puntos == null || puntos.Length == 0)
             {
                 Debug.LogError($"El camino en el índice {caminoIndex} no tiene puntos asignados.");
                 continue;
             }
 
             // El punto de aparición (Spawn) siempre será el primer punto (índice 0) del camino seleccionado
-            Transform spawnPoint = caminosDelNivel[caminoIndex].puntos[0];
+            Transform spawnPoint = puntos[0];
 
             // Aparecer la cantidad de enemigos de este bloque
             for (int i = 0; i < group.count; i++)
             {
                 GameObject enemy = Instantiate(group.enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-                activeEnemies.Add(enemy);
 
                 // PASAR EL CAMINO AL ENEMIGO: Le inyectamos la ruta asignada de forma automática
                 if (enemy.TryGetComponent<SeguirCamino>(out var scriptMovimiento))
                 {
-                    scriptMovimiento.SetCamino(caminosDelNivel[caminoIndex].puntos);
+                    scriptMovimiento.SetCamino(puntos, oleada: this);
                 }
                 else
                 {
                     Debug.LogWarning($"El prefab {enemy.name} no tiene el script 'SeguirCamino' adjunto.");
+                    Destroy(enemy);
                 }
 
                 yield return new WaitForSeconds(group.timeBetweenEnemies);
@@ -102,18 +107,29 @@ public class OleadaManip : MonoBehaviour
         }
 
         isSpawning = false;
-        ComprobarFinDeOleadas();
+        ComprobarFinDeOleada();
+    }
+
+    internal void RegisterEnemy(GameObject enemy)
+    {
+        activeEnemies.Add(enemy);
     }
 
     public void RegisterEnemyDeath(GameObject enemy)
     {
         if (activeEnemies.Remove(enemy))
-            ComprobarFinDeOleadas();
+            ComprobarFinDeOleada();
     }
 
-    private void ComprobarFinDeOleadas()
+    public void DetenerPartida()
     {
-        if (allWavesCompleted || Time.timeScale == 0f || isSpawning ||
+        partidaTerminada = true;
+        StopAllCoroutines();
+    }
+
+    private void ComprobarFinDeOleada()
+    {
+        if (partidaTerminada || allWavesCompleted || isSpawning ||
             activeEnemies.Count > 0 || currentWaveIndex < TotalOleadas)
             return;
 

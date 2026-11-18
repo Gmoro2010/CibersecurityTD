@@ -9,6 +9,7 @@ public class NucleoVida : MonoBehaviour
 
     public float VidaActual => vidaActualNucleo;
     public float VidaMaxima => vidaMaximaNucleo;
+    public event System.Action Destruido;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class NucleoVida : MonoBehaviour
 
     public void DanarNucleo(float cantidad)
     {
+        if (vidaActualNucleo <= 0f) return;
         vidaActualNucleo = Mathf.Clamp(vidaActualNucleo - cantidad, 0f, vidaMaximaNucleo);
         Debug.Log("¡El núcleo Pfinal recibió daño! Vidas restantes: " + vidaActualNucleo);
 
@@ -30,15 +32,7 @@ public class NucleoVida : MonoBehaviour
             barraVidaNucleo.value = vidaActualNucleo;
         }
 
-        if (vidaActualNucleo <= 0)
-        {
-            GameOver();
-        }
-    }
-
-    private void GameOver()
-    {
-        Debug.Log("¡GAME OVER!");
-        Time.timeScale = 0f; // Congela el juego
+        if (vidaActualNucleo <= 0f)
+            Destruido?.Invoke();
     }
 }
