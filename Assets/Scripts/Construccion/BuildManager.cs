@@ -6,7 +6,7 @@ public class BuildManager : MonoBehaviour
     public static BuildManager Instance;
 
     [Header("Economía")]
-    [SerializeField] private int dineroInicial = 200;
+    [SerializeField] private int dineroInicial = 50;
     private int dineroActual;
     [SerializeField] private TextMeshProUGUI textoDineroUI;
     public int DineroActual => dineroActual;
@@ -16,6 +16,8 @@ public class BuildManager : MonoBehaviour
 
     private TorreItem torreParaConstruir;
     public TorreItem TorreParaConstruir => torreParaConstruir;
+    public System.Func<BaseTorre, TorreItem, bool> PermisoConstruir { get; set; }
+    public bool VentaPermitida { get; set; } = true;
 
     private void Awake()
     {
@@ -38,75 +40,26 @@ public class BuildManager : MonoBehaviour
 
     public bool ConstruirTorreEnBase(BaseTorre baseDestino)
     {
-        if (!PuedeConstruir || baseDestino == null) return false;
+        if (Time.timeScale == 0f || !PuedeConstruir || baseDestino == null ||
+            PermisoConstruir?.Invoke(baseDestino, torreParaConstruir) == false) return false;
 
-        // CASO 1: Base vacía -> Construir y vincular inmediatamente
-        if (baseDestino.torreEnBase == null)
+        GameObject prefab = torreParaConstruir.prefabTorre;
+        TorreIdentificador identificador = prefab != null ? prefab.GetComponentInChildren<TorreIdentificador>() : null;
+        if (identificador == null) return false;
+
+        if (baseDestino.torreEnBase != null)
         {
-            dineroActual -= torreParaConstruir.costo;
-            ActualizarUIDinero();
-
-            GameObject nuevaTorre = Instantiate(torreParaConstruir.prefabTorre, baseDestino.transform.position, Quaternion.identity);
-            
-            // Buscamos el identificador en la raíz o en sus hijos
-            TorreIdentificador identificador = nuevaTorre.GetComponentInChildren<TorreIdentificador>();
-            
-            if (identificador != null)
-            {
-                baseDestino.torreEnBase = identificador;
-            }
-            else
-            {
-                Debug.LogError($"¡ERROR! El prefab '{torreParaConstruir.prefabTorre.name}' NO tiene el componente 'TorreIdentificador'.");
-            }
-
-            torreParaConstruir = null;
-            return true;
+            if (baseDeDatosCombinaciones == null) return false;
+            prefab = baseDeDatosCombinaciones.BuscarCombinacion(identificador.idTorre, baseDestino.torreEnBase.idTorre);
+            if (prefab == null || prefab.GetComponentInChildren<TorreIdentificador>() == null) return false;
         }
-        // CASO 2: Base ocupada -> Intentar combinar
-        else
-        {
-            if (baseDeDatosCombinaciones == null)
-            {
-                Debug.LogError("Falta asignar la Base de Datos de Combinaciones en el BuildManager.");
-                return false;
-            }
 
-            TorreIdentificador idTorreTienda = torreParaConstruir.prefabTorre.GetComponentInChildren<TorreIdentificador>();
-            TorreIdentificador idTorreExistente = baseDestino.torreEnBase;
-
-            if (idTorreTienda == null || idTorreExistente == null)
-            {
-                Debug.LogError("Falta el componente 'TorreIdentificador' en una de las torres.");
-                return false;
-            }
-
-            GameObject prefabResultado = baseDeDatosCombinaciones.BuscarCombinacion(idTorreTienda.idTorre, idTorreExistente.idTorre);
-
-            if (prefabResultado != null)
-            {
-                dineroActual -= torreParaConstruir.costo;
-                ActualizarUIDinero();
-
-                // Destruimos por completo la torre anterior (incluyendo su raíz)
-                Destroy(idTorreExistente.transform.root.gameObject);
-
-                // Instanciamos la nueva torre combinada
-                GameObject nuevaTorreGO = Instantiate(prefabResultado, baseDestino.transform.position, Quaternion.identity);
-                
-                // Vinculamos el nuevo identificador a la base
-                baseDestino.torreEnBase = nuevaTorreGO.GetComponentInChildren<TorreIdentificador>();
-
-                torreParaConstruir = null;
-                Debug.Log($"¡Combinación exitosa! Se creó {nuevaTorreGO.name} y la base se actualizó correctamente.");
-                return true;
-            }
-            else
-            {
-                Debug.Log($"No existe combinación entre '{idTorreTienda.idTorre}' y '{idTorreExistente.idTorre}'.");
-                return false;
-            }
-        }
+        int costo = torreParaConstruir.costo;
+        baseDestino.Instalar(prefab, baseDestino.Inversion + costo);
+        dineroActual -= costo;
+        torreParaConstruir = null;
+        ActualizarUIDinero();
+        return true;
     }
 
     public GameObject ConstruirTorreEn(Vector3 posicion)

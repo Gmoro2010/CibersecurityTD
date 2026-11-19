@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class OptionsButton : MonoBehaviour
 {
@@ -21,5 +22,6 @@ public class OptionsButton : MonoBehaviour
     {
         if (optionsPanel != null) optionsPanel.SetActive(false);
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        EventSystem.current?.SetSelectedGameObject(gameObject);
     }
 }

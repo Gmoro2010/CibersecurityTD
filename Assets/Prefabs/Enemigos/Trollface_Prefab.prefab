@@ -502,8 +502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e62752a697473118bfb6f55460db58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeguirCamino
-  velocidad: 0.2
-  dano: 150
+  velocidad: 0.31
+  dano: 45
 --- !u!114 &8820657872198667344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,11 +516,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44995c5d5b5aedf4b9af27a97fc322b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VidaObj
-  vidaMaxima: 600
+  vidaMaxima: 350
   barraDeVida: {fileID: 6919180448832312947}
-  recompensaDinero: 10
+  recompensaDinero: 4
   spriteRenderer: {fileID: 0}
   colorDano: {r: 1, g: 0, b: 0, a: 1}
+  spriteDanado: {fileID: 0}
   duracionEfectoRojo: 0.15
 --- !u!61 &6364090174754389946
 BoxCollider2D:

@@ -15,10 +15,14 @@ public class Turret : MonoBehaviour
     public float fireRate = 1f;        
     [Tooltip("Orienta cada FirePoint hacia el objetivo usando su eje X de disparo")]
     public bool apuntarFirePointsAlObjetivo = false;
+    [SerializeField] private bool anticiparMovimiento;
 
     [Header("Ajustes de Rotación")]
     private Transform target;
     private float fireCountdown = 0f;
+    public BaseTorre Base { get; set; }
+    private float velocidadProyectil;
+    private float distanciaBoca;
 
     void Start()
     {
@@ -28,21 +32,43 @@ public class Turret : MonoBehaviour
         }
 
         InvokeRepeating(nameof(UpdateTarget), 0f, updateRate);
+        if (anticiparMovimiento && bulletPrefab != null)
+        {
+            if (bulletPrefab.TryGetComponent<MovimientoBala>(out var bala)) velocidadProyectil = bala.Velocidad;
+            else if (bulletPrefab.TryGetComponent<BalaArea>(out var area)) velocidadProyectil = area.Velocidad;
+
+            if (firePoints != null && firePoints.Length > 0 && firePoints[0] != null)
+                distanciaBoca = Vector2.Distance(transform.position, firePoints[0].position);
+        }
     }
 
     void Update()
     {
-        if (target == null)
+        if (Time.timeScale == 0f || (Base != null && Base.Inhabilitada)) return;
+
+        fireCountdown -= Time.deltaTime;
+        if (target == null || !target.gameObject.activeInHierarchy ||
+            ((Vector2)(target.position - transform.position)).sqrMagnitude > range * range)
             return;
 
-        Vector2 direction = target.position - transform.position;
+        Vector2 puntoObjetivo = target.position;
+        if (velocidadProyectil > 0f && target.TryGetComponent<SeguirCamino>(out var camino))
+        {
+            for (int intento = 0; intento < 2; intento++)
+            {
+                float vuelo = Mathf.Max(0f, Vector2.Distance(transform.position, puntoObjetivo) - distanciaBoca) / velocidadProyectil;
+                puntoObjetivo = camino.PredecirPosicion(vuelo);
+            }
+        }
+
+        Vector2 direction = puntoObjetivo - (Vector2)transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, angle + desface);
 
         if (apuntarFirePointsAlObjetivo)
         {
-            ApuntarFirePoints();
+            ApuntarFirePoints(puntoObjetivo);
         }
 
         if (fireCountdown <= 0f)
@@ -51,10 +77,9 @@ public class Turret : MonoBehaviour
             fireCountdown = 1f / fireRate;
         }
 
-        fireCountdown -= Time.deltaTime;
     }
 
-    void ApuntarFirePoints()
+    void ApuntarFirePoints(Vector2 puntoObjetivo)
     {
         if (firePoints == null) return;
 
@@ -63,7 +88,7 @@ public class Turret : MonoBehaviour
             if (fp == null) continue;
 
             // Usar la posición de cada boca para que los disparos converjan en el enemigo.
-            Vector2 direction = target.position - fp.position;
+            Vector2 direction = puntoObjetivo - (Vector2)fp.position;
             if (direction.sqrMagnitude > 0f)
             {
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -90,8 +115,7 @@ public class Turret : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(targetTag);
         
         GameObject bestTarget = null;
-        int highestWaypointIndex = -1;
-        float shortestDistanceToNextPoint = Mathf.Infinity;
+        float distanciaRestanteMinima = Mathf.Infinity;
 
         foreach (GameObject enemy in enemies)
         {
@@ -105,31 +129,11 @@ public class Turret : MonoBehaviour
 
                 if (caminoScript != null && caminoScript.PuntosDelCamino != null)
                 {
-                    int currentIndex = caminoScript.IndiceSiguientePunto;
-                    Transform[] puntos = caminoScript.PuntosDelCamino;
-
-                    // Evitamos errores si el índice excede el arreglo
-                    if (currentIndex < puntos.Length)
+                    float distanciaRestante = caminoScript.DistanciaRestante;
+                    if (distanciaRestante < distanciaRestanteMinima)
                     {
-                        float distanceToNext = Vector2.Distance(enemy.transform.position, puntos[currentIndex].position);
-
-                        // Regla de selección: 
-                        // - Prioridad 1: Quien tenga el índice más alto (más avanzado en los waypoints).
-                        // - Prioridad 2: Si tienen el mismo índice, el que esté más cerca del siguiente punto.
-                        if (currentIndex > highestWaypointIndex)
-                        {
-                            highestWaypointIndex = currentIndex;
-                            shortestDistanceToNextPoint = distanceToNext;
-                            bestTarget = enemy;
-                        }
-                        else if (currentIndex == highestWaypointIndex)
-                        {
-                            if (distanceToNext < shortestDistanceToNextPoint)
-                            {
-                                shortestDistanceToNextPoint = distanceToNext;
-                                bestTarget = enemy;
-                            }
-                        }
+                        distanciaRestanteMinima = distanciaRestante;
+                        bestTarget = enemy;
                     }
                 }
             }

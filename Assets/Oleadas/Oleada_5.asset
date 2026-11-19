@@ -14,24 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OleadaData
   waveName: Oleada 5
   enemyGroups:
-  - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 6
+  - enemyPrefab: {fileID: 8320961054074539431, guid: af79d379c6d3afe1092d977473ab6d66, type: 3}
+    count: 1
     delayBeforeStart: 0
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 8320961054074539431, guid: af79d379c6d3afe1092d977473ab6d66, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
+    timeBetweenEnemies: 0
     spawnPointIndex: 0
   - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 6
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
+    count: 8
+    delayBeforeStart: 0.7
+    timeBetweenEnemies: 0.48
     spawnPointIndex: 0
   - enemyPrefab: {fileID: 8320961054074539431, guid: af79d379c6d3afe1092d977473ab6d66, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
+    count: 3
+    delayBeforeStart: 0.6
+    timeBetweenEnemies: 0.62
     spawnPointIndex: 0
   timeAfterWave: 0

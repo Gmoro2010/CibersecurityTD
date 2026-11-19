@@ -9,16 +9,64 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1970023816196662294, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970023816196662294, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: intervaloGeneracion
       value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 3044849486439328924, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: dano
-      value: 160
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3044849486439328924, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: velocidad
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 3720417860212238662, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: m_Name
       value: JefeConfluencia_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962473100196220218, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Sprite
+      value:
+      objectReference: {fileID: 21300000, guid: 01cdc7056f6506a4fadd33ef42f93973, type: 3}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Size.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Size.y
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473192944998705861, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7199045111414660843, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,14 +110,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8404793996444326248, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: vidaMaxima
-      value: 9000
+      value: 3350
       objectReference: {fileID: 0}
     - target: {fileID: 8404793996444326248, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      propertyPath: spriteDanado
+      value:
+      objectReference: {fileID: 21300000, guid: 9402733b3faac3a449472bcfa1d97492, type: 3}
+    - target: {fileID: 8404793996444326248, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
       propertyPath: recompensaDinero
-      value: 150
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3720417860212238662, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 600037517375123769}
   m_SourcePrefab: {fileID: 100100000, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+--- !u!1 &9127769964385782520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3720417860212238662, guid: 44b7536ecf97e4d8c8cab1227de849cf, type: 3}
+  m_PrefabInstance: {fileID: 5552320685114254270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &600037517375123769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127769964385782520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c06c63f6682944cb9adbad11b676ff, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::JefeLaser
+  materialRayo: {fileID: 2100000, guid: 0b95aeb5d527f794e9fecd03c76bea07, type: 2}
+  intervalo: 7.5
+  duracion: 5

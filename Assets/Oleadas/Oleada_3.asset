@@ -15,43 +15,13 @@ MonoBehaviour:
   waveName: Oleada 3
   enemyGroups:
   - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 2
+    count: 6
     delayBeforeStart: 0
-    timeBetweenEnemies: 1
+    timeBetweenEnemies: 0.62
     spawnPointIndex: 0
   - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 2
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 2
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 2
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
-    spawnPointIndex: 0
-  - enemyPrefab: {fileID: 8756236323940415831, guid: eb2d0de227f132c5a857e2fefa5d972b, type: 3}
-    count: 1
-    delayBeforeStart: 1
-    timeBetweenEnemies: 1
+    count: 5
+    delayBeforeStart: 0.55
+    timeBetweenEnemies: 0.82
     spawnPointIndex: 0
   timeAfterWave: 0

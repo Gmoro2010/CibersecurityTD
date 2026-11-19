@@ -6,6 +6,7 @@ public class BalaArea : MonoBehaviour
     [Header("Ajustes de Movimiento")]
     [SerializeField] private float velocidad = 10f;
     [SerializeField] private float tiempoDeVidaMaximo = 5f;
+    public float Velocidad => velocidad;
 
     [Header("Ajustes de Daño en Área (AoE)")]
     [SerializeField] private float radioExplosion = 3.5f;

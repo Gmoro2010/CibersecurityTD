@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RobTox
   m_EditorClassIdentifier: Assembly-CSharp::TorreItem
   nombre: "Torre B\xE1sica"
-  costo: 100
+  costo: 28
   prefabTorre: {fileID: 9160339799169830964, guid: d3f01d1a8f600c830ab92bb61ce577fb, type: 3}
   iconoUI: {fileID: -8750975491280884767, guid: 7696f611d7b15a575a023855209e2788, type: 3}

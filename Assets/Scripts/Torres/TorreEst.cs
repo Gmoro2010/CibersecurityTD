@@ -15,6 +15,7 @@ public class TurretEstatica : MonoBehaviour
     [Header("Control de Fuego")]
     private Transform target;
     private float fireCountdown = 0f;
+    public BaseTorre Base { get; set; }
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class TurretEstatica : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f || (Base != null && Base.Inhabilitada)) return;
         // Reducir el temporizador de disparo constantemente
         if (fireCountdown > 0f)
         {
@@ -35,7 +37,8 @@ public class TurretEstatica : MonoBehaviour
         }
 
         // Si no hay un objetivo en rango, la torreta no dispara
-        if (target == null)
+        if (target == null || !target.gameObject.activeInHierarchy ||
+            ((Vector2)(target.position - transform.position)).sqrMagnitude > range * range)
             return;
 
         // Disparar cuando el contador llegue a cero (sin rotar la torre)

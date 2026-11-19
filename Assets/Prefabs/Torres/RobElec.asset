@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RobElec
   m_EditorClassIdentifier: Assembly-CSharp::TorreItem
   nombre: "Robot El\xE9ctrico"
-  costo: 35
+  costo: 27
   prefabTorre: {fileID: 1875247470744285626, guid: 8a47e9c78db80714b83aef394676916f, type: 3}
   iconoUI: {fileID: 6814392952642921254, guid: 1fd883b0534ac6cbea151cd540cd2b37, type: 3}

@@ -50,15 +50,22 @@ public sealed class ResultadoPartida : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        Mostrar("VICTORIA", desbloqueo ? "Núcleo defendido. Mapa 2 desbloqueado."
-            : "Defendiste el núcleo durante todas las oleadas.", new Color32(100, 248, 196, 255));
+        if (SceneManager.GetActiveScene().name == TutorialPartida.Escena)
+        {
+            TutorialPartida.RecordarTutorial();
+            Mostrar("TUTORIAL LISTO", "Ya puedes jugar el Nivel 1.", new Color32(100, 248, 196, 255));
+            return;
+        }
+
+        Mostrar("VICTORIA", desbloqueo ? "Base a salvo. Mapa 2 desbloqueado."
+            : "Defendiste la base en todas las oleadas.", new Color32(100, 248, 196, 255));
     }
 
     private void MostrarDerrota()
     {
         string detalle = oleadas.OleadaActual > 0
-            ? $"El núcleo cayó en la oleada {oleadas.OleadaActual} de {oleadas.TotalOleadas}."
-            : "El núcleo fue destruido.";
+            ? $"Perdiste la base en la oleada {oleadas.OleadaActual} de {oleadas.TotalOleadas}."
+            : "La base fue destruida.";
         Mostrar("DERROTA", detalle, new Color32(255, 100, 123, 255));
     }
 

@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2238615224880246282, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2238615224880246282, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2238615224880246282, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5944118455250222196, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: vidaMaxima
-      value: 65
+      value: 96
       objectReference: {fileID: 0}
     - target: {fileID: 5944118455250222196, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: colorDano.b
@@ -62,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5944118455250222196, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: recompensaDinero
-      value: 15
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6522854080660319915, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: m_Name
@@ -70,11 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7452040911426990496, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: dano
-      value: 65
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7452040911426990496, guid: d402646abcb3f92d09c5dccfddcf6818, type: 3}
       propertyPath: velocidad
-      value: 0.95
+      value: 0.84
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

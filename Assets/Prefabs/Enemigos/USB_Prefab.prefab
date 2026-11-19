@@ -313,7 +313,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.281428, y: 0.475259, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7901665956160835711}
@@ -391,8 +391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e62752a697473118bfb6f55460db58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeguirCamino
-  velocidad: 1
-  dano: 200
+  velocidad: 0.78
+  dano: 22
 --- !u!114 &5944118455250222196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,11 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44995c5d5b5aedf4b9af27a97fc322b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VidaObj
-  vidaMaxima: 25
+  vidaMaxima: 60
   barraDeVida: {fileID: 7028176841360558883}
-  recompensaDinero: 10
+  recompensaDinero: 2
   spriteRenderer: {fileID: 0}
   colorDano: {r: 1, g: 0, b: 0, a: 1}
+  spriteDanado: {fileID: 0}
   duracionEfectoRojo: 0.15
 --- !u!61 &6120260447743436543
 BoxCollider2D:

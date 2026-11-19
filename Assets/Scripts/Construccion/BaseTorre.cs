@@ -8,9 +8,59 @@ public class BaseTorre : MonoBehaviour
     [Tooltip("Referencia a la torre que está actualmente encima de esta base (nulo si está vacía)")]
     public TorreIdentificador torreEnBase;
 
-    [Header("Configuración de Venta")]
-    [Tooltip("Cantidad de dinero que se devuelve al vender la torre")]
-    [SerializeField] private int valorDeVenta = 100;
+    private int inversion;
+    private float inhabilitadaHasta;
+    private SpriteRenderer indicador;
+    private Color colorNormal;
+    private bool indicadorInhabilitado;
+
+    public int Inversion => inversion;
+    public bool Inhabilitada => Time.time < inhabilitadaHasta;
+
+    private void Awake()
+    {
+        indicador = GetComponent<SpriteRenderer>();
+        if (indicador != null) colorNormal = indicador.color;
+    }
+
+    private void LateUpdate()
+    {
+        if (indicador == null || indicadorInhabilitado == Inhabilitada) return;
+        indicadorInhabilitado = Inhabilitada;
+        indicador.color = indicadorInhabilitado ? new Color32(255, 85, 153, 255) : colorNormal;
+    }
+
+    public void Inhabilitar(float segundos)
+    {
+        inhabilitadaHasta = Mathf.Max(inhabilitadaHasta, Time.time + segundos);
+    }
+
+    public void ConservarBloqueoDe(BaseTorre origen)
+    {
+        inhabilitadaHasta = Mathf.Max(inhabilitadaHasta, origen.inhabilitadaHasta);
+    }
+
+    public void Instalar(GameObject prefab, int costoTotal)
+    {
+        QuitarTorre();
+        GameObject instancia = Instantiate(prefab, transform.position, Quaternion.identity);
+        torreEnBase = instancia.GetComponentInChildren<TorreIdentificador>();
+        inversion = costoTotal;
+        foreach (var torre in instancia.GetComponentsInChildren<Turret>()) torre.Base = this;
+        foreach (var torre in instancia.GetComponentsInChildren<TurretEstatica>()) torre.Base = this;
+    }
+
+    public void QuitarTorre()
+    {
+        if (torreEnBase != null)
+        {
+            GameObject raiz = torreEnBase.transform.root.gameObject;
+            raiz.SetActive(false);
+            Destroy(raiz);
+        }
+        torreEnBase = null;
+        inversion = 0;
+    }
 
     private void OnMouseOver()
     {
@@ -50,20 +100,10 @@ public class BaseTorre : MonoBehaviour
 
     public void VenderTorre()
     {
-        if (torreEnBase == null) return;
+        if (torreEnBase == null || BuildManager.Instance == null || !BuildManager.Instance.VentaPermitida)
+            return;
 
-        // Devolver dinero al jugador a través del BuildManager
-        if (BuildManager.Instance != null)
-        {
-            BuildManager.Instance.GanarDinero(valorDeVenta);
-        }
-
-        // Destruir el GameObject raíz de la torre (sea básica o combinada)
-        Destroy(torreEnBase.transform.root.gameObject);
-
-        // Liberar la base
-        torreEnBase = null;
-
-        Debug.Log("¡Torre vendida con éxito con clic derecho! Base liberada.");
+        BuildManager.Instance.GanarDinero(inversion * 3 / 5);
+        QuitarTorre();
     }
 }

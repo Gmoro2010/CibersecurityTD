@@ -12,6 +12,7 @@ public class VidaObj : MonoBehaviour
     [Header("Efecto de Daño (Color Rojo)")]
     [SerializeField] private SpriteRenderer spriteRenderer; // Arrastra aquí el SpriteRenderer o se buscará automático
     [SerializeField] private Color colorDano = Color.red;   // Color al recibir daño
+    [SerializeField] private Sprite spriteDanado;
     [SerializeField] private float duracionEfectoRojo = 0.15f; // Cuánto dura el color rojo
     private Color colorOriginal;
 
@@ -21,7 +22,7 @@ public class VidaObj : MonoBehaviour
     public float VidaActual => vidaActual;
     public float VidaMaxima => vidaMaxima;
 
-    void Start()
+    void Awake()
     {
         vidaActual = vidaMaxima;
 
@@ -40,16 +41,18 @@ public class VidaObj : MonoBehaviour
         {
             barraDeVida.maxValue = vidaMaxima;
             barraDeVida.value = vidaActual;
+            if (!AjustesJuego.MostrarBarrasEnemigas) barraDeVida.gameObject.SetActive(false);
         }
     }
 
     public void RecibirDano(float cantidad)
     {
-        if (muerto) return;
+        if (muerto || !gameObject.activeInHierarchy) return;
 
         vidaActual = Mathf.Clamp(vidaActual - cantidad, 0, vidaMaxima);
         
-        Debug.Log(gameObject.name + " tiene " + vidaActual + " de vida restante.");
+        if (spriteDanado != null && spriteRenderer != null && vidaActual <= vidaMaxima * 0.5f)
+            spriteRenderer.sprite = spriteDanado;
 
         if (barraDeVida != null)
         {
@@ -57,7 +60,7 @@ public class VidaObj : MonoBehaviour
         }
 
         // Activar el efecto visual de daño
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && !AjustesJuego.ReducirDestellos)
         {
             StopAllCoroutines(); // Detiene corrutinas previas para evitar conflictos si recibe daño muy seguido
             StartCoroutine(EfectoRojoRutina());

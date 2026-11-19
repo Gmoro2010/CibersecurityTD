@@ -20,18 +20,22 @@ public class OleadaManip : MonoBehaviour
 
     [Header("Lista de Oleadas del Nivel")]
     public List<OleadaData> levelWaves;
+    [SerializeField, Min(0)] private int recompensaOleada = 5;
 
     private int currentWaveIndex = 0;
     private readonly HashSet<GameObject> activeEnemies = new HashSet<GameObject>();
     private bool isSpawning = false;
     private bool allWavesCompleted;
     private bool partidaTerminada;
+    private int ultimaOleadaCerrada;
 
     public int OleadaActual => currentWaveIndex;
     public int TotalOleadas => levelWaves?.Count ?? 0;
+    public bool OleadaEnCurso => isSpawning || activeEnemies.Count > 0;
+    public System.Func<bool> PermisoInicio { get; set; }
     public bool PuedeEmpezarOleada =>
         !partidaTerminada && Time.timeScale > 0f && !isSpawning &&
-        activeEnemies.Count == 0 && currentWaveIndex < TotalOleadas;
+        activeEnemies.Count == 0 && currentWaveIndex < TotalOleadas && PermisoInicio?.Invoke() != false;
 
     // Suscríbete a estos eventos desde tu interfaz (UI) si lo necesitas
     public System.Action<string> OnWaveChanged;
@@ -102,7 +106,8 @@ public class OleadaManip : MonoBehaviour
                     Destroy(enemy);
                 }
 
-                yield return new WaitForSeconds(group.timeBetweenEnemies);
+                if (i + 1 < group.count && group.timeBetweenEnemies > 0f)
+                    yield return new WaitForSeconds(group.timeBetweenEnemies);
             }
         }
 
@@ -129,9 +134,14 @@ public class OleadaManip : MonoBehaviour
 
     private void ComprobarFinDeOleada()
     {
-        if (partidaTerminada || allWavesCompleted || isSpawning ||
-            activeEnemies.Count > 0 || currentWaveIndex < TotalOleadas)
+        if (partidaTerminada || allWavesCompleted || OleadaEnCurso || currentWaveIndex <= ultimaOleadaCerrada) return;
+        ultimaOleadaCerrada = currentWaveIndex;
+
+        if (currentWaveIndex < TotalOleadas)
+        {
+            BuildManager.Instance?.GanarDinero(recompensaOleada);
             return;
+        }
 
         allWavesCompleted = true;
         Debug.Log("¡Felicidades! Has defendido todas las oleadas.");

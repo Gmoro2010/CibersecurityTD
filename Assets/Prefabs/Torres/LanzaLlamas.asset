@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LanzaLlamas
   m_EditorClassIdentifier: Assembly-CSharp::TorreItem
   nombre: LanzaLlamas
-  costo: 15
+  costo: 18
   prefabTorre: {fileID: 429188713719690359, guid: 96490a5f2459832e989ee27a4f07f63e, type: 3}
   iconoUI: {fileID: 77336940413830005, guid: a3d302d9a35e44fc9a4088e2c4f95bfd, type: 3}

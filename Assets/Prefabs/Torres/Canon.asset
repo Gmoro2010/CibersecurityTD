@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Canon
   m_EditorClassIdentifier: Assembly-CSharp::TorreItem
   nombre: Canon
-  costo: 10
+  costo: 22
   prefabTorre: {fileID: 1307659322885093111, guid: ac0d1c9e811bc37888778885d3d6baca, type: 3}
   iconoUI: {fileID: 2941743209850944908, guid: f79e9fc288b7bbd42ac731e7bf50cd23, type: 3}

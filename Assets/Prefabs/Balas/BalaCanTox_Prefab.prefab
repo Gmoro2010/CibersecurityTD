@@ -180,8 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09f5f8e3c0a94e3995169638c249fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BalaArea
-  velocidad: 2
+  velocidad: 2.9
   tiempoDeVidaMaximo: 0.5
-  radioExplosion: 0.2
-  danoDeAtaque: 42
+  radioExplosion: 0.23
+  danoDeAtaque: 43
   tagEnemigo: Enemigo

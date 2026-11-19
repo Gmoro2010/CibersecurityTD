@@ -66,26 +66,12 @@ public class AdministradorCombinaciones : MonoBehaviour
         // Buscar receta en la base de datos
         GameObject prefabResultado = baseDeDatos.BuscarCombinacion(torre1.idTorre, torre2.idTorre);
 
-        if (prefabResultado != null)
+        if (prefabResultado != null && prefabResultado.GetComponentInChildren<TorreIdentificador>() != null)
         {
-            // Tomamos la posición de la segunda base
-            Vector3 posicionDestino = base2.transform.position;
-
-            // Destruir los objetos físicos de las dos torres anteriores
-            Destroy(torre1.gameObject);
-            Destroy(torre2.gameObject);
-
-            // Liberar la primera base (ahora queda vacía)
-            base1.torreEnBase = null;
-
-            // Instanciar la nueva torre combinada en la posición de la segunda base
-            GameObject nuevaTorreGO = Instantiate(prefabResultado, posicionDestino, Quaternion.identity);
-            
-            // Asignar el nuevo identificador a la segunda base
-            TorreIdentificador nuevoIdentificador = nuevaTorreGO.GetComponent<TorreIdentificador>();
-            base2.torreEnBase = nuevoIdentificador;
-
-            Debug.Log($"¡Combinación exitosa! Se creó {nuevaTorreGO.name} y se asignó a la base.");
+            int inversion = base1.Inversion + base2.Inversion;
+            base2.ConservarBloqueoDe(base1);
+            base1.QuitarTorre();
+            base2.Instalar(prefabResultado, inversion);
         }
         else
         {

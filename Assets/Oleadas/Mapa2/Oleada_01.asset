@@ -12,11 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a456cba80080f3b2a9ec5f1ec3f96e2a, type: 3}
   m_Name: Oleada_01
   m_EditorClassIdentifier: Assembly-CSharp::OleadaData
-  waveName: "Oleada 1 \xB7 Entrada de la derecha"
+  waveName: Oleada 1
   enemyGroups:
-  - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 8
+  - enemyPrefab: {fileID: 2193506814977171714, guid: 082a1650e03ae134b8d1876257fc1e97, type: 3}
+    count: 5
     delayBeforeStart: 0
-    timeBetweenEnemies: 0.82
+    timeBetweenEnemies: 0.65
     spawnPointIndex: 0
+  - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
+    count: 5
+    delayBeforeStart: 0.6
+    timeBetweenEnemies: 0.72
+    spawnPointIndex: 1
+  - enemyPrefab: {fileID: 2193506814977171714, guid: 082a1650e03ae134b8d1876257fc1e97, type: 3}
+    count: 4
+    delayBeforeStart: 0.55
+    timeBetweenEnemies: 0.52
+    spawnPointIndex: 1
   timeAfterWave: 0

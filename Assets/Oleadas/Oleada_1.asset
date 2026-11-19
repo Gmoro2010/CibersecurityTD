@@ -15,8 +15,8 @@ MonoBehaviour:
   waveName: Oleada 1
   enemyGroups:
   - enemyPrefab: {fileID: 2193506814977171714, guid: 684083fb2b030e165891f3b063e4d9eb, type: 3}
-    count: 8
+    count: 6
     delayBeforeStart: 0
-    timeBetweenEnemies: 1
+    timeBetweenEnemies: 1.05
     spawnPointIndex: 0
   timeAfterWave: 0

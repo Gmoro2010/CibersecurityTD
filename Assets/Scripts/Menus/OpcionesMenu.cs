@@ -1,33 +1,61 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class OpcionesMenu : MonoBehaviour
+public sealed class OpcionesMenu : MonoBehaviour
 {
-    public Slider sliderVolumen;
-    public Toggle togglePantallaCompleta;
+    [SerializeField] private OptionsButton navegacion;
+    [SerializeField] private Toggle barrasEnemigas;
+    [SerializeField] private Toggle reducirDestellos;
+    [SerializeField] private Toggle pausaAlCambiarVentana;
+    [SerializeField] private Button repetirTutorial;
+    [SerializeField] private Button volver;
 
-    void Start()
+    private bool cargandoTutorial;
+
+    private void OnEnable()
     {
-        // Cargar valores guardados
-        float vol = PlayerPrefs.GetFloat("volumen", 0.5f);
-        bool full = PlayerPrefs.GetInt("pantallaCompleta", Screen.fullScreen ? 1 : 0) == 1;
+        barrasEnemigas.SetIsOnWithoutNotify(AjustesJuego.MostrarBarrasEnemigas);
+        reducirDestellos.SetIsOnWithoutNotify(AjustesJuego.ReducirDestellos);
+        pausaAlCambiarVentana.SetIsOnWithoutNotify(AjustesJuego.PausarAlPerderFoco);
 
-        sliderVolumen.SetValueWithoutNotify(vol);
-        togglePantallaCompleta.SetIsOnWithoutNotify(full);
-
-        AplicarVolumen(vol);
-        Screen.fullScreen = full;
+        barrasEnemigas.onValueChanged.AddListener(CambiarBarrasEnemigas);
+        reducirDestellos.onValueChanged.AddListener(CambiarDestellos);
+        pausaAlCambiarVentana.onValueChanged.AddListener(CambiarPausaAutomatica);
+        repetirTutorial.onClick.AddListener(RepetirTutorial);
+        volver.onClick.AddListener(Volver);
+        EventSystem.current?.SetSelectedGameObject(barrasEnemigas.gameObject);
     }
 
-    public void AplicarVolumen(float valor)
+    private void OnDisable()
     {
-        AudioListener.volume = valor;
-        PlayerPrefs.SetFloat("volumen", valor);
+        barrasEnemigas.onValueChanged.RemoveListener(CambiarBarrasEnemigas);
+        reducirDestellos.onValueChanged.RemoveListener(CambiarDestellos);
+        pausaAlCambiarVentana.onValueChanged.RemoveListener(CambiarPausaAutomatica);
+        repetirTutorial.onClick.RemoveListener(RepetirTutorial);
+        volver.onClick.RemoveListener(Volver);
     }
 
-    public void AplicarPantallaCompleta(bool activo)
+    private void Update()
     {
-        Screen.fullScreen = activo;
-        PlayerPrefs.SetInt("pantallaCompleta", activo ? 1 : 0);
+        if (Keyboard.current?.escapeKey.wasPressedThisFrame == true) Volver();
+    }
+
+    private static void CambiarBarrasEnemigas(bool activo) => AjustesJuego.MostrarBarrasEnemigas = activo;
+    private static void CambiarDestellos(bool activo) => AjustesJuego.ReducirDestellos = activo;
+    private static void CambiarPausaAutomatica(bool activo) => AjustesJuego.PausarAlPerderFoco = activo;
+
+    private void RepetirTutorial()
+    {
+        if (cargandoTutorial) return;
+        cargandoTutorial = true;
+        SceneManager.LoadSceneAsync(TutorialPartida.Escena);
+    }
+
+    private void Volver()
+    {
+        if (!cargandoTutorial) navegacion.CloseOptions();
     }
 }

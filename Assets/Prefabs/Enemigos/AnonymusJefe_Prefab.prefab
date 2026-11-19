@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e62752a697473118bfb6f55460db58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeguirCamino
-  velocidad: 0.1
+  velocidad: 0.285
   dano: 200
 --- !u!114 &8404793996444326248
 MonoBehaviour:
@@ -331,11 +331,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44995c5d5b5aedf4b9af27a97fc322b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VidaObj
-  vidaMaxima: 15000
+  vidaMaxima: 6800
   barraDeVida: {fileID: 7415722416875836913}
-  recompensaDinero: 100
+  recompensaDinero: 12
   spriteRenderer: {fileID: 0}
   colorDano: {r: 1, g: 0, b: 0, a: 1}
+  spriteDanado: {fileID: 6452262649381261572, guid: a69b52bfc8560eea3a190c949275f24a, type: 3}
   duracionEfectoRojo: 0.15
 --- !u!61 &6473192944998705861
 BoxCollider2D:
@@ -423,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemigoGenerador
   prefabEnemigoHijo: {fileID: 8320961054074539431, guid: af79d379c6d3afe1092d977473ab6d66, type: 3}
-  intervaloGeneracion: 3
+  intervaloGeneracion: 6
 --- !u!1 &5475105276471723590
 GameObject:
   m_ObjectHideFlags: 0

@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e613fc2544a4951bf91127c193079704, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoBala
-  velocidad: 1.45
+  velocidad: 2.3
   tiempoDeVidaMaximo: 0.55
 --- !u!114 &3238967969232778870
 MonoBehaviour:
@@ -195,4 +195,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9413f1d1c5305fc39b1a1223bdc93d3a, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DanoBala
-  danoDeAtaque: 12
+  danoDeAtaque: 11

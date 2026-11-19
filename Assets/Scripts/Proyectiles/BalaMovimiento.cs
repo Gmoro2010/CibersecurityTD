@@ -5,6 +5,7 @@ public class MovimientoBala : MonoBehaviour
     [Header("Configuración de Movimiento")]
     [SerializeField] private float velocidad = 15f;
     [SerializeField] private float tiempoDeVidaMaximo = 5f; // Seguridad por si no llega la configuración
+    public float Velocidad => velocidad;
 
     private Vector3 posicionTorre;
     private float rangoMaximo = Mathf.Infinity;
